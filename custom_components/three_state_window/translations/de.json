@@ -1,0 +1,36 @@
+{
+  "config": {
+    "step": {
+      "user": {
+        "title": "Drei-Zustands-Fenster konfigurieren",
+        "description": "Kombiniere einen Kontakt- und einen Kippsensor zu einem einzigen Fenster-Sensor mit drei Zuständen (offen / gekippt / geschlossen).",
+        "data": {
+          "name": "Name",
+          "contact_sensor": "Kontaktsensor",
+          "tilt_sensor": "Kippsensor"
+        },
+        "data_description": {
+          "contact_sensor": "Binärsensor, der AN ist, wenn das Fenster geöffnet ist (gekippt oder vollständig offen).",
+          "tilt_sensor": "Binärsensor, der AUS (geschlossen) ist, wenn das Fenster in Kippstellung ist."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "window": {
+        "name": "{name}",
+        "state": {
+          "open": "Geöffnet",
+          "tilted": "Gekippt",
+          "closed": "Geschlossen"
+        }
+      }
+    },
+    "binary_sensor": {
+      "window_open": {
+        "name": "{name} Geöffnet"
+      }
+    }
+  }
+}

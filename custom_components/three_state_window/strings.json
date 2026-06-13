@@ -1,0 +1,37 @@
+{
+  "name": "Three State Window",
+  "config": {
+    "step": {
+      "user": {
+        "title": "Configure Three State Window",
+        "description": "Combine a contact sensor and a tilt sensor into a single 3-state window sensor (open / tilted / closed).",
+        "data": {
+          "name": "Name",
+          "contact_sensor": "Contact sensor",
+          "tilt_sensor": "Tilt sensor"
+        },
+        "data_description": {
+          "contact_sensor": "Binary sensor that is ON when the window is open (tilted or fully open).",
+          "tilt_sensor": "Binary sensor that is OFF (closed) when the window is in the tilted position."
+        }
+      }
+    }
+  },
+  "entity": {
+    "sensor": {
+      "window": {
+        "name": "{name}",
+        "state": {
+          "open": "Open",
+          "tilted": "Tilted",
+          "closed": "Closed"
+        }
+      }
+    },
+    "binary_sensor": {
+      "window_open": {
+        "name": "{name} Open"
+      }
+    }
+  }
+}

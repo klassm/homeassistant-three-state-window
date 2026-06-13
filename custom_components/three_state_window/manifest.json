@@ -1,0 +1,12 @@
+{
+  "domain": "three_state_window",
+  "name": "Three State Window",
+  "codeowners": ["@klassm"],
+  "config_flow": true,
+  "dependencies": [],
+  "documentation": "https://github.com/klassm/homeassistant-three-state-window",
+  "iot_class": "calculated",
+  "issue_tracker": "https://github.com/klassm/homeassistant-three-state-window/issues",
+  "requirements": [],
+  "version": "0.1.0"
+}
