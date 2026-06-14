@@ -277,3 +277,60 @@ async def test_multiple_instances(hass: HomeAssistant) -> None:
     assert hass.states.get("sensor.bedroom_window").state == STATE_CLOSED
     assert hass.states.get("binary_sensor.test_window_open").state == STATE_ON
     assert hass.states.get("binary_sensor.bedroom_window_open").state == STATE_OFF
+
+
+async def test_reconfigure_flow(hass: HomeAssistant) -> None:
+    await _setup_sources(hass, STATE_ON, STATE_ON)
+    entry = _create_entry(hass)
+    await _setup_entry(hass, entry)
+
+    assert hass.states.get("sensor.test_window").state == STATE_OPEN
+
+    new_contact = "binary_sensor.new_contact"
+    new_tilt = "binary_sensor.new_tilt"
+    hass.states.async_set(new_contact, STATE_OFF)
+    hass.states.async_set(new_tilt, STATE_ON)
+    await hass.async_block_till_done()
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": config_entries.SOURCE_RECONFIGURE, "entry_id": entry.entry_id},
+    )
+    assert result["type"] == "form"
+    assert result["step_id"] == "reconfigure"
+
+    result = await hass.config_entries.flow.async_configure(
+        result["flow_id"],
+        {
+            "contact_sensor": new_contact,
+            "tilt_sensor": new_tilt,
+        },
+    )
+    assert result["type"] == "abort"
+    assert result["reason"] == "reconfigure_successful"
+
+    await hass.async_block_till_done()
+
+    assert entry.data["contact_sensor"] == new_contact
+    assert entry.data["tilt_sensor"] == new_tilt
+
+    assert hass.states.get("sensor.test_window").state == STATE_CLOSED
+    assert hass.states.get("binary_sensor.test_window_open").state == STATE_OFF
+
+
+async def test_reconfigure_flow_shows_current_values(hass: HomeAssistant) -> None:
+    await _setup_sources(hass, STATE_OFF, STATE_ON)
+    entry = _create_entry(hass)
+    await _setup_entry(hass, entry)
+
+    result = await hass.config_entries.flow.async_init(
+        DOMAIN,
+        context={"source": config_entries.SOURCE_RECONFIGURE, "entry_id": entry.entry_id},
+    )
+    assert result["type"] == "form"
+    assert result["step_id"] == "reconfigure"
+
+    schema_keys = [str(k) for k in result["data_schema"].schema]
+    assert any("contact_sensor" in k for k in schema_keys)
+    assert any("tilt_sensor" in k for k in schema_keys)
+    assert not any("name" in k for k in schema_keys)

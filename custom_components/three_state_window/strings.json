@@ -14,6 +14,18 @@
           "contact_sensor": "Binary sensor that is ON when the window is open (tilted or fully open).",
           "tilt_sensor": "Binary sensor that is OFF (closed) when the window is in the tilted position."
         }
+      },
+      "reconfigure": {
+        "title": "Reconfigure Three State Window",
+        "description": "Change the contact sensor or tilt sensor for this window.",
+        "data": {
+          "contact_sensor": "Contact sensor",
+          "tilt_sensor": "Tilt sensor"
+        },
+        "data_description": {
+          "contact_sensor": "Binary sensor that is ON when the window is open (tilted or fully open).",
+          "tilt_sensor": "Binary sensor that is OFF (closed) when the window is in the tilted position."
+        }
       }
     }
   },

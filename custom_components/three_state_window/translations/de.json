@@ -13,6 +13,18 @@
           "contact_sensor": "Binärsensor, der AN ist, wenn das Fenster geöffnet ist (gekippt oder vollständig offen).",
           "tilt_sensor": "Binärsensor, der AUS (geschlossen) ist, wenn das Fenster in Kippstellung ist."
         }
+      },
+      "reconfigure": {
+        "title": "Drei-Zustands-Fenster neu konfigurieren",
+        "description": "Ändere den Kontaktsensor oder Kippsensor für dieses Fenster.",
+        "data": {
+          "contact_sensor": "Kontaktsensor",
+          "tilt_sensor": "Kippsensor"
+        },
+        "data_description": {
+          "contact_sensor": "Binärsensor, der AN ist, wenn das Fenster geöffnet ist (gekippt oder vollständig offen).",
+          "tilt_sensor": "Binärsensor, der AUS (geschlossen) ist, wenn das Fenster in Kippstellung ist."
+        }
       }
     }
   },

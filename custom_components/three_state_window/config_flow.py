@@ -14,6 +14,13 @@ DATA_SCHEMA = vol.Schema(
     }
 )
 
+RECONFIGURE_SCHEMA = vol.Schema(
+    {
+        vol.Required("contact_sensor"): selector.EntitySelector(selector.EntitySelectorConfig(domain="binary_sensor")),
+        vol.Required("tilt_sensor"): selector.EntitySelector(selector.EntitySelectorConfig(domain="binary_sensor")),
+    }
+)
+
 
 class ThreeStateWindowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
     VERSION = 1
@@ -28,3 +35,19 @@ class ThreeStateWindowConfigFlow(config_entries.ConfigFlow, domain=DOMAIN):
             )
             return self.async_create_entry(title=user_input["name"], data=user_input)
         return self.async_show_form(step_id="user", data_schema=DATA_SCHEMA)
+
+    async def async_step_reconfigure(self, user_input=None):
+        entry = self._get_reconfigure_entry()
+        if user_input is not None:
+            return self.async_update_reload_and_abort(
+                entry,
+                data_updates=user_input,
+            )
+        schema = self.add_suggested_values_to_schema(
+            RECONFIGURE_SCHEMA,
+            {
+                "contact_sensor": entry.data["contact_sensor"],
+                "tilt_sensor": entry.data["tilt_sensor"],
+            },
+        )
+        return self.async_show_form(step_id="reconfigure", data_schema=schema)
